@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class SpinningWheel : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class SpinningWheel : MonoBehaviour
     private float anglePerPos;
 
     private const float Wheel = 360f;
-    private const float numberOfPos = 9;
+    private const int numberOfPos = 9;
 
     private float startAngle;
 
@@ -22,18 +21,27 @@ public class SpinningWheel : MonoBehaviour
     public int numberOfCircle = 2;
     public float timeRotate = 5;
 
+    private GameObject[] gift = new GameObject[numberOfPos];
+
+    private bool isSpinning;
+
     private void Start()
     {
         anglePerPos = Wheel / numberOfPos;
+
+        for (int i = 0; i < numberOfPos; i++)
+        {
+            gift[i] = this.gameObject.transform.GetChild(i).gameObject;
+        }
     }
-    
+
     IEnumerator Rotate()
     {
         startAngle = transform.eulerAngles.z;
         timer = 0;
 
         float angleWant = (numberOfCircle * Wheel) + anglePerPos * playerInput - startAngle - 10;
-        
+
         while (timer < timeRotate)
         {
             yield return new WaitForEndOfFrame();
@@ -46,6 +54,18 @@ public class SpinningWheel : MonoBehaviour
         }
 
         Debug.Log($"Player wins {playerInput} hearts and {playerInput} golds");
+
+        //gift[playerInput - 1].Get
+
+        int childCount = gift[playerInput - 1].transform.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            gift[playerInput - 1].transform.GetChild(i).GetComponent<Renderer>().material.color = Color.grey;
+        }
+        
+        //Chi access duoc child dau tien do la coin => chi doi mau coin
+        
+        //Bug ko the access het child cua parent
     }
 
     private void Update()
@@ -109,4 +129,5 @@ public class SpinningWheel : MonoBehaviour
             StartCoroutine(Rotate());
         }
     }
+
 }
