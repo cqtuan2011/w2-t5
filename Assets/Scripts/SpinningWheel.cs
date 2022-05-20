@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpinningWheel : MonoBehaviour
 {
@@ -22,8 +23,6 @@ public class SpinningWheel : MonoBehaviour
     public float timeRotate = 5;
 
     private GameObject[] gift = new GameObject[numberOfPos];
-
-    private bool isSpinning;
 
     private void Start()
     {
@@ -53,19 +52,7 @@ public class SpinningWheel : MonoBehaviour
             this.transform.eulerAngles = new Vector3(0, 0, angleCurrent + startAngle);
         }
 
-        Debug.Log($"Player wins {playerInput} hearts and {playerInput} golds");
-
-        //gift[playerInput - 1].Get
-
-        int childCount = gift[playerInput - 1].transform.childCount;
-        for (int i = 0; i < childCount; i++)
-        {
-            gift[playerInput - 1].transform.GetChild(i).GetComponent<Renderer>().material.color = Color.grey;
-        }
-        
-        //Chi access duoc child dau tien do la coin => chi doi mau coin
-        
-        //Bug ko the access het child cua parent
+        ClaimReward();
     }
 
     private void Update()
@@ -73,61 +60,83 @@ public class SpinningWheel : MonoBehaviour
         CheckInput();
     }
 
+    IEnumerator Sequence()
+    {
+        yield return StartCoroutine(Rotate());
+        yield return StartCoroutine(LoadNewScene());
+    }
+
     void CheckInput()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             playerInput = 1;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             playerInput = 2;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             playerInput = 3;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             playerInput = 4;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if(Input.GetKeyDown(KeyCode.Alpha5))
         {
             playerInput = 5;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             playerInput = 6;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if(Input.GetKeyDown(KeyCode.Alpha7))
         {
             playerInput = 7;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             playerInput = 8;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
         }
 
         if(Input.GetKeyDown(KeyCode.Alpha9))
         {
             playerInput = 9;
-            StartCoroutine(Rotate());
+            StartCoroutine(Sequence());
+        }
+    }
+    void ClaimReward()
+    {
+        Debug.Log($"Player wins {playerInput} hearts and {playerInput} golds");
+
+        int childCount = gift[playerInput - 1].transform.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            gift[playerInput - 1].transform.GetChild(i).GetComponent<Renderer>().material.color = Color.grey;
         }
     }
 
+    IEnumerator LoadNewScene()
+    {
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.LoadScene(playerInput);
+    }
 }
