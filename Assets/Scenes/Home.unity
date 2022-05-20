@@ -1376,8 +1376,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  abc: {fileID: 8300000, guid: cdd9b57b6a9576545851f521607e54fb, type: 3}
-  audioSource: {fileID: 1464428785}
   numberOfCircle: 3
   timeRotate: 5
 --- !u!212 &1464428783
@@ -1460,7 +1458,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464428781}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: cdd9b57b6a9576545851f521607e54fb, type: 3}
